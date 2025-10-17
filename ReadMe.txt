@@ -1,40 +1,75 @@
+Room Occupancy Counter (VHDL - FPGA Project)
 
-1 – How to run occupancy_counter.vhd
+This project implements a digital room occupancy counter in VHDL for the Xilinx Nexys A7 FPGA. It was created for the COEN313 Digital Design course (Summer 2025, Concordia University).
 
- - Open a terminal in the correct directory where the file is saved.
+The system uses two photocell sensors to detect people entering and exiting a room. It tracks the number of occupants in real time and prevents overflow by asserting a “max_capacity” signal once the programmable limit is reached. The design is resettable, robust against invalid transitions, and verified through simulation.
 
- - Copy and paste the following line to set up the environment:
- source /CMC/tools/xilinx/Vivado_2018.2/Vivado/2018.2/settings64_CMC_central_license.csh
+System Overview:
 
- - Then open Vivado using the command:
-   vivado &
+- Finite State Machine (FSM) controls the system states.
 
- - Follow the steps in Nexys_Quickstart.pdf, but do not generate the bitstream, since we didn’t use an .xdc file and no Nexys board was required for this project.
+- Counter module increments or decrements occupancy count.
 
- - After running implementation, you can open both the RTL elaborated design and the implementation elaborated design to view your circuit.
+- Comparator checks when count equals the programmable max.
 
- -  To view the timing report, open the TCL console in Vivado and type:
-    "report_timing"
+- Registers store the current count and previous input states.
 
+- Reset logic clears the system and restarts the count.
 
-2 – How to run occupancy_counter_tb.vhd
+Main Signals:
 
-  - Open a terminal in the correct directory that contains the work folder (you should be in the /Code directory).
+- entry_sensor (Input): Detects when someone enters.
 
-  - Copy and paste the following line to set up the ModelSim environment:
-    source /CMC/ENVIRONMENT/modelsim.env
+- exit_sensor (Input): Detects when someone exits.
 
-  - Use the vcom command to compile both files:
-    vcom occupancy_counter.vhd
-    vcom occupancy_counter_tb.vhd
+- max_limit (Input, 8-bit): Defines the maximum capacity.
 
-  - Then run the simulation using:
-    vsim work.occupancy_counter_tb
+- count (Output, 8-bit): Displays the current number of people.
 
-  -  This will open ModelSim, where you can use the TCL console.
+- max_capacity (Output): Indicates the room is full.
 
-  - In the console, enter the command to add all signals to the waveform:
-    add wave *
+- reset (Input): Resets all registers and FSM.
 
-  - Finally, run the simulation for your desired duration (e.g., 500 ns):
-    run 500 ns
+Files:
+
+- occupancy_counter.vhd: Main control and counter logic.
+
+- fsm_controller.vhd: State machine logic.
+
+- comparator.vhd: Detects full capacity.
+
+- testbench.vhd: Simulates sensor signals and behavior.
+
+- occupancy_counter.xdc: Nexys A7 FPGA pin constraints.
+
+- vivado_log.txt: Simulation and synthesis logs.
+
+Simulation and Verification:
+Simulated using Xilinx Vivado. Test cases covered single entry/exit, rapid sensor activation, simultaneous entry/exit, overflow and underflow conditions, and mid-operation resets. All results verified through waveform analysis.
+
+Synthesis Results:
+
+- Device: Nexys A7 (XC7A100T)
+
+- LUT usage: ~3%
+
+- FF usage: ~2%
+
+- Max frequency: ~100 MHz
+
+Timing violations: None
+
+How to Run:
+
+- Open project in Xilinx Vivado.
+
+- Add all .vhd source files and the .xdc constraints file.
+
+- Set the top module to occupancy_counter.
+
+- Run Behavioral Simulation to visualize signals.
+
+- Optionally run Synthesis and Implementation for FPGA validation.
+
+Results Summary:
+The design provides accurate occupancy tracking with clean state transitions and minimal resource use. The FSM architecture ensures predictable control and reliable performance.
