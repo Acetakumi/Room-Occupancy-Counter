@@ -1,0 +1,21 @@
+#-----------------------------------------------------------
+# Vivado v2018.2 (64-bit)
+# SW Build 2258646 on Thu Jun 14 20:02:38 MDT 2018
+# IP Build 2256618 on Thu Jun 14 22:10:49 MDT 2018
+# Start of session at: Mon Jun 23 17:32:03 2025
+# Process ID: 25750
+# Current directory: /nfs/home/a/ab_husna/COEN313/Labs
+# Command line: vivado
+# Log file: /nfs/home/a/ab_husna/COEN313/Labs/vivado.log
+# Journal file: /nfs/home/a/ab_husna/COEN313/Labs/vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project /nfs/home/a/ab_husna/COEN313/Labs/lab_project/lab_project.xpr
+update_compile_order -fileset sources_1
+open_run synth_1 -name synth_1
+write_schematic -format pdf -orientation portrait /nfs/home/a/ab_husna/COEN313/Labs/schematic.pdf
+synth_design -rtl -name rtl_1
+write_schematic -format pdf -orientation portrait -force /nfs/home/a/ab_husna/COEN313/Labs/schematic.pdf
+write_schematic -format pdf -orientation portrait /nfs/home/a/ab_husna/COEN313/Labs/rtl.pdf
+current_design synth_1
+write_schematic -format pdf -orientation portrait /nfs/home/a/ab_husna/COEN313/Labs/implementation.pdf
